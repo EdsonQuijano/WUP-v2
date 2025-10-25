@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WUP Interactive Map: Campus Navigation</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="C:\wup-interactive-map\assests\images\wup-logo.png" alt="WUP Logo" class="logo-img">
+                <div class="title-group">
+                    <h1 class="header-title">WUP Interactive Map</h1>
+                    <p class="header-subtitle">Campus Navigation</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <aside class="sidebar">
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="section-header">
+                    <h2 class="section-title">Search Location</h2>
+                </div>
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search campus locations..." autocomplete="off">
+                    <div class="search-dropdown" id="searchDropdown">
+                        <!-- Results will be populated dynamically -->
+                    </div>
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+            </section>
+
+            <section class="filter-section">
+                <div class="section-header">
+                    <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    <h2 class="section-title">Filter Locations</h2>
+                </div>
+                <div class="filter-grid">
+                    <button class="filter-btn" data-filter="all">
+                        <span>Buildings</span>
+                    </button>
+                    <button class="filter-btn" data-filter="comfort">
+                        <span>Restrooms</span>
+                    </button>
+                    <button class="filter-btn" data-filter="parking">
+                        <span>Parking</span>
+                    </button>
+                    <button class="filter-btn" data-filter="gates">
+                        <span>Gates</span>
+                    </button>
+                    <button class="filter-btn clear-filter" id="clearFilter">
+                        <span>Clear Filter</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="location-section">
+                <div class="section-header">
+                    <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <h2 class="section-title">Recent Location</h2>
+                </div>
+                <div class="location-card">
+                    <h3 class="location-name">Select a building</h3>
+                    <p class="location-description">Click on any building or marker on the map to view details</p>
+                </div>
+            </section>
+        </aside>
+
+        <div class="map-wrapper">
+            <div id="map"></div>
+<!-- Map Container -->
+<div class="map-wrapper">
+    <div id="map"></div>
+
+<div class="building-popup" id="buildingPopup">
+    <div class="popup-content-container">
+        <button class="close-popup" id="closePopup" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        
+        <div class="carousel-container">
+            <div class="carousel-counter" id="carouselCounter">1 / 1</div>
+            <div class="carousel-slides" id="carouselSlides">
+            </div>
+            <div class="carousel-arrows">
+                <button class="carousel-arrow-btn" id="prevSlide" aria-label="Previous">‹</button>
+                <button class="carousel-arrow-btn" id="nextSlide" aria-label="Next">›</button>
+            </div>
+        </div>
+        <div class="popup-content">
+            <h3 class="building-name" id="buildingName">Building Name</h3>
+            <div class="building-details" id="buildingDetails">
+                <div class="detail-item">
+                    <span class="detail-label">Office:</span>
+                    <span class="detail-value">Office Name</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Floor:</span>
+                    <span class="detail-value">Floor Number</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="js/data/campus-boundary.js"></script>
+    <script src="js/data/campus-locations.js"></script>
+    <script src="js/data/campus-buildings.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/map-init.js"></script>
+    <script src="js/markers.js"></script>
+    <script src="js/building-polygons.js"></script>
+    <script src="js/image-carousel.js"></script>
+    <script src="js/ui-handlers.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
